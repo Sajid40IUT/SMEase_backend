@@ -12,6 +12,34 @@ app.use(cors({
 }));
 // Middleware
 app.use(express.json());
+// Health check endpoint
+app.get('/health', async (req, res) => {
+    try {
+        // Basic health check
+        const healthData = {
+            status: 'OK',
+            timestamp: new Date().toISOString(),
+            uptime: process.uptime(),
+            environment: process.env.NODE_ENV || 'development'
+        };
+        res.status(200).json(healthData);
+    }
+    catch (error) {
+        res.status(500).json({
+            status: 'ERROR',
+            timestamp: new Date().toISOString(),
+            error: 'Health check failed'
+        });
+    }
+});
+// Root endpoint
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: 'SMEease Backend API is running!',
+        status: 'OK',
+        timestamp: new Date().toISOString()
+    });
+});
 // Routes
 app.use('/api', routes);
 const PORT = process.env.PORT || 4000;
