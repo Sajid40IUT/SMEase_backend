@@ -5,10 +5,13 @@
   "main": "src/app.ts",
   "scripts": {
     "dev": "tsx watch src/app.ts",
-    "build": "tsc",
+    "build": "npm run prisma:generate && tsc",
     "start": "node dist/app.js",
-    "postinstall": "prisma generate",
-    "db:push": "prisma db push",
+    "postinstall": "npm run prisma:generate",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:deploy": "npm run prisma:generate && npm run prisma:push",
+    "deploy": "npm run build && npm run prisma:push && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
